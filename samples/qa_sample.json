@@ -1,0 +1,4 @@
+[
+  { "question_id":"q003", "question":"번역 품질 비교(업무메일 톤)", "model":"Model A", "answer_text":"...", "created_at":"2025-08-12T03:12:00Z" },
+  { "question_id":"q003", "question":"번역 품질 비교(업무메일 톤)", "model":"Model B", "answer_text":"...", "created_at":"2025-08-12T03:12:00Z" }
+]
