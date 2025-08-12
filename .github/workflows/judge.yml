@@ -1,0 +1,33 @@
+name: Judge & Build Summary
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # 15분마다
+  workflow_dispatch: {}
+
+jobs:
+  judge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Run judge script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GAS_URL: ${{ secrets.GAS_URL }}
+          GAS_TOKEN: ${{ secrets.GAS_TOKEN }}
+          WEIGHTS_JSON: ${{ secrets.WEIGHTS_JSON }} # 선택: 가중치 오버라이드
+          FORCE_REEVAL: ${{ inputs.force || '' }}   # run inputs로 강제 재채점 지원
+        run: node scripts/judge.js
+      - name: Commit summary.json if changed
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add site/summary.json || true
+          git diff --cached --quiet || git commit -m "chore: update summary.json"
+          git push
