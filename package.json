@@ -1,0 +1,12 @@
+{
+  "name": "ai-judge-gemini25",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "judge": "node scripts/judge.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "node-fetch": "^3.3.2"
+  }
+}
